@@ -1,1 +1,1 @@
-# newsExplorer-api
+# news-explorer-api

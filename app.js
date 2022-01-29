@@ -26,7 +26,6 @@ const usersRoutes = require('./routes/users');
 const articlesRoutes = require('./routes/articles');
 
 const validateEmail = (value, helpers) => {
-  console.log('validate');
   if (validator.isEmail(value)) {
     return value;
   }

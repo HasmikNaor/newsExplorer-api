@@ -9,10 +9,11 @@ const { requestLogger, errorLogger } = require('./middlewares/logger');
 const { createUser, login } = require('./controllers/users');
 const ResourceNotFoundErr = require('./errors/resourceNotFound');
 
-const { PORT = 3000 } = process.env;
+const { PORT = 3000, DATABASE, NODE_ENV } = process.env;
 const auth = require('./middlewares/auth');
 
 mongoose.connect('mongodb://localhost:27017/newsExplorer');
+mongoose.connect(NODE_ENV === 'production' ? DATABASE : 'mongodb://localhost:27017/newsExplorer');
 // mongoose.connect('mongodb+srv://hasmik:henry@cluster0.24mr2.mongodb.net/newsExplorer?retryWrites=true&w=majority');
 
 const app = express();
@@ -43,7 +44,7 @@ app.post('/signup', celebrate({
   body: Joi.object().keys({
     email: Joi.string().required().custom(validateEmail),
     password: Joi.string().required(),
-    username: Joi.string().required().min(2).max(30),
+    name: Joi.string().required().min(2).max(30),
   }),
 }), createUser);
 
@@ -70,7 +71,6 @@ app.use(errors());
 app.use((err, req, res, next) => {
   const status = err.statusCode || 500;
   return res.status(status).send({ name: err.name, message: err.message });
-  //  );
 });
 
 app.listen(PORT);

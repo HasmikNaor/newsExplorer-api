@@ -16,7 +16,6 @@ router.use(bodyParser.json()); // parses data in JSON format
 router.use(bodyParser.urlencoded({ extended: true })); // parses webpages inside POST requests
 
 const validateURL = (value, helpers) => {
-  console.log('validateurl');
   if (validator.isURL(value)) {
     return value;
   }

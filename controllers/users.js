@@ -15,7 +15,7 @@ const userNotFoundHandler = () => {
 
 const emailAlreadyExists = () => {
   const error = new Error('choose another email');
-  error.statusCode = 400;
+  error.statusCode = 409;
   error.name = 'UserExists';
   throw error;
 };
@@ -31,7 +31,7 @@ module.exports.getCurrentUser = (req, res, next) => {
 };
 
 module.exports.createUser = (req, res, next) => {
-  const { email, username } = req.body;
+  const { email, name } = req.body;
   User.findOne({ email })
     .then((user) => {
       if (user) {
@@ -40,7 +40,7 @@ module.exports.createUser = (req, res, next) => {
       return bcrypt.hash(req.body.password, 10)
         .then((hash) => User.create({
           email,
-          name: username,
+          name,
           password: hash,
         })
           .then((user) => {

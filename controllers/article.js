@@ -9,7 +9,9 @@ const articleNotFoundHandler = () => {
 };
 
 module.exports.getArticles = (req, res, next) => {
-  Article.find({})
+  const owner = req.user._id;
+
+  Article.find({ owner })
     .orFail(() => articleNotFoundHandler())
     .then((articles) => res.status(200).send(articles))
     .catch(next);

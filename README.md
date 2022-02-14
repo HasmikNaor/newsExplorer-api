@@ -1,1 +1,2 @@
-# newsExplorer-api
+# news-explorer-api
+[api domain](https://api.explorer.students.nomoreparties.sbs)
